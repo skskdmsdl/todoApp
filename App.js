@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 
 import { theme } from "./colors";
 
@@ -51,15 +51,22 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <TextInput
-          onSubmitEditing={addToDo}
-          onChangeText={onChangeText}
-          returnKeyType="done"
-          value={text}
-          placeholder={
-            working ? "What do you have to do?" : "Where do you want to go?"
-          }
-          style={styles.input}
-        />
+        onSubmitEditing={addToDo}
+        onChangeText={onChangeText}
+        returnKeyType="done"
+        value={text}
+        placeholder={
+          working ? "What do you have to do?" : "Where do you want to go?"
+        }
+        style={styles.input}
+      />
+      <ScrollView>
+        {Object.keys(toDos).map((key) => (
+            <View style={styles.toDo} key={key}>
+              <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -86,5 +93,20 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 20,
     fontSize: 18,
+  },
+  toDo: {
+    backgroundColor: theme.toDoBg,
+    marginBottom: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  toDoText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
